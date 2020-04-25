@@ -38,13 +38,17 @@
                 password: ''
             }
         },
-        computed: mapGetters(["getAuthToken"]),
         methods: {
             ...mapActions(["sendAuthData"]),
+            ...mapGetters(["getAuthToken", "getAuthStatus","isAuthenticated"]),
             submit(){
                 this.sendAuthData({
                     username: this.username,
                     password: this.password
+                }).then(()=>{
+                    console.log("isAuthenticated = "+ this.isAuthenticated());
+                    console.log("getAuthStatus = "+ this.getAuthStatus());
+                    console.log("getAuthToken = "+ this.getAuthToken());
                 });
             }
         }
