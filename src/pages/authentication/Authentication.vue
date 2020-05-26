@@ -6,14 +6,19 @@
                     <v-col cols="12" sm="8" md="4">
                         <v-card class="elevation-12">
                             <v-toolbar color="primary" dark flat>
-                                <v-spacer />
+                                <v-spacer/>
                                 <v-toolbar-title>Mercy Group</v-toolbar-title>
-                                <v-spacer />
+                                <v-spacer/>
                             </v-toolbar>
+                            <v-alert type="error" v-if="hasError">
+                                Wrong username or password
+                            </v-alert>
                             <v-card-text>
                                 <v-form @submit.prevent="submit" id="signIn">
-                                    <v-text-field label="Login" name="login" v-model="username" prepend-icon="person" type="text"/>
-                                    <v-text-field id="password" label="Password" v-model="password" name="password" prepend-icon="lock" type="password"/>
+                                    <v-text-field label="Login" name="login" v-model="username" prepend-icon="person"
+                                                  type="text"/>
+                                    <v-text-field id="password" label="Password" v-model="password" name="password"
+                                                  prepend-icon="lock" type="password"/>
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
@@ -29,28 +34,31 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from "vuex";
+    import {mapActions} from "vuex";
+
     export default {
         name: 'Auth',
         data() {
-            return{
+            return {
                 username: '',
-                password: ''
+                password: '',
+                hasError: false
             }
         },
         methods: {
-            ...mapActions(["sendAuthData"]),
-            ...mapGetters(["getAuthToken", "getAuthStatus","isAuthenticated"]),
-            submit(){
-                this.sendAuthData({
+            ...mapActions(["authenticate"]),
+            submit() {
+                this.authenticate({
                     username: this.username,
                     password: this.password
-                }).then(()=>{
-                    console.log("isAuthenticated = "+ this.isAuthenticated());
-                    console.log("getAuthStatus = "+ this.getAuthStatus());
-                    console.log("getAuthToken = "+ this.getAuthToken());
+                }).then(() => {
+                    this.$router.push({name: 'home'});
+                }).catch(() => {
+                    this.hasError = true
+                    console.log("authentication failed")
                 });
-            }
+            },
+
         }
     }
 </script>
