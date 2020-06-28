@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import api from '@/api'
 
     export default {
         data() {
@@ -14,7 +14,7 @@
             }
         },
         mounted() {
-            axios.get('http://localhost:8081/api/v1/employees')
+            api.getAllEmployes()
                 .then(() => {
                     this.msg = "eee"
                 })

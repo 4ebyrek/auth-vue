@@ -53,9 +53,9 @@
                     password: this.password
                 }).then(() => {
                     this.$router.push({name: 'home'});
-                }).catch(() => {
+                }).catch((err) => {
                     this.hasError = true
-                    console.log("authentication failed")
+                    console.log(`[Authentication.vue] authentication fail = ${err}`)
                 });
             },
 

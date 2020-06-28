@@ -17,12 +17,11 @@ export default {
                         const token = resp.headers.authorization
                         localStorage.setItem('user-token', token)
                         axios.defaults.headers.common['Authorization'] = token
-                        commit("authenticationSuccess")
+                        commit("authenticationSuccess", token)
                         resolve(resp)
                     })
-                    .catch(err => {
-                        console.log("authentication failed from vuex")
-                        commit("authenticationFail")
+                    .catch((err) => {
+                        console.log("[vuex] authentication fail")
                         reject(err)
                     })
             })
@@ -32,25 +31,26 @@ export default {
         }
     },
     mutations: {
-        loadData(state) {
+        loadData: (state) => {
             state.isLoading = true
         },
-        authenticationSuccess(state) {
+
+        authenticationSuccess: (state, token) => {
             state.isLoading = false
-            state.status = true
+            state.token = token
         },
-        authenticationFail(state) {
+        authenticationFail: (state) => {
             state.isLoading = false
-            state.status = false
+            state.token = ''
         }
     },
     state: {
         isLoading: false,
-        status: false,
+        token: localStorage.getItem('user-token') || ''
     },
     getters: {
         isAuthenticated(state) {
-            return state.status
+            return !!state.token
         }
     }
 }
