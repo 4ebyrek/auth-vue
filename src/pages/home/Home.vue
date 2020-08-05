@@ -1,11 +1,14 @@
 <template>
     <div>
-        <h1>salem alem {{msg}}</h1>
+        <h1 class="subtitle-1 grey--text">Home</h1>
+        <v-container class="my-5">
+            content
+        </v-container>
     </div>
 </template>
 
 <script>
-    import api from '@/api'
+    // import api from '@/api'
 
     export default {
         data() {
@@ -13,11 +16,11 @@
                 msg: "eldarbai"
             }
         },
-        mounted() {
-            api.getAllEmployes()
-                .then(() => {
-                    this.msg = "eee"
-                })
-        }
+        // mounted() {
+        //     api.getAllEmployes()
+        //         .then(() => {
+        //             this.msg = "eee"
+        //         })
+        // }
     }
 </script>
