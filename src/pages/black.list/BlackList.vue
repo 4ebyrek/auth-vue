@@ -62,6 +62,8 @@
     </div>
 </template>
 <script>
+    import api from '@/api'
+
     export default {
         data: () => ({
             dialog: false,
@@ -101,15 +103,25 @@
             },
         },
 
-        created () {
+        mounted () {
             this.initialize()
         },
 
         methods: {
             initialize () {
-                this.desserts = [
-
-                ]
+                api.getAllEmployes().then(
+                    response => {
+                        console.log(response)
+                        const dirtyArr = response.data
+                        for (let i = 0; i < dirtyArr.length; i++){
+                            this.desserts.push({
+                                    name: dirtyArr[i].firstName,
+                                    iin: dirtyArr[i].login,
+                                    cause: dirtyArr[i].status,
+                            })
+                        }
+                    }
+                ).catch((e)=>console.log(`error = ${e}`))
             },
 
             editItem (item) {
